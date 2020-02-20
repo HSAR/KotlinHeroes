@@ -1,5 +1,12 @@
 package io.hsar.practice3
 
+/*
+Input:
+201 101 101 200
+
+Output:
+1 100 100
+ */
 fun main() {
     val input = readLine()!!.split(" ")
             .map { inputSegment ->
