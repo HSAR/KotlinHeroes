@@ -8,8 +8,13 @@ fun main() {
             }
 
     array
-            .toSet()
-            .toTypedArray()
+            .foldRight(emptyList()) { item, accumulator: List<Int> ->
+                if (!accumulator.contains(item)) {
+                    listOf(item) + accumulator // reversed accumulation
+                } else {
+                    accumulator
+                }
+            }
             .let { dedupedArray ->
                 println(dedupedArray.size)
                 println(dedupedArray.joinToString(" "))
