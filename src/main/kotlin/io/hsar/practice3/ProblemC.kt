@@ -1,15 +1,14 @@
 package io.hsar.practice3
 
 /*
-https://codeforces.com/contest/1298/problem/B
+https://codeforces.com/contest/1298/problem/C
 
 Input:
 6
-1 5 5 1 6 1
+xxxiii
 
 Output:
-3
-5 6 1
+1
  */
 fun main() {
     val arrayLength = readLine()!!

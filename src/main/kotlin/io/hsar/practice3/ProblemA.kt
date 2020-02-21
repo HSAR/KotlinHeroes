@@ -1,6 +1,8 @@
 package io.hsar.practice3
 
 /*
+https://codeforces.com/contest/1298/problem/A
+
 Input:
 201 101 101 200
 
