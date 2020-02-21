@@ -33,7 +33,7 @@ fun main() {
     } else {
         0
     }
-    val posDelta = if (minDelta >= 0) {
+    val posDelta = if (maxDelta >= 0) {
         maxDelta
     } else {
         0
@@ -41,7 +41,7 @@ fun main() {
 
     val possibilities = busCapacity + 1
     val hypotheses = (possibilities + negDelta) - posDelta
-    val result = if (-negDelta > busCapacity || posDelta > busCapacity) {
+    val result = if (-negDelta > busCapacity || posDelta > busCapacity || hypotheses < 0) {
         0
     } else {
         hypotheses
