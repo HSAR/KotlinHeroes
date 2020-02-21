@@ -25,25 +25,26 @@ fun main() {
         deltaProgression + listOf(deltaProgression.last() + capacityDelta)
     }
 
-    val hypotheses = (0..busCapacity)
-            .mapNotNull { hypothesis ->
-                val validDeltas = overallDeltas
-                        .map { eachDelta ->
-                            val eachHypothesisDelta = hypothesis + eachDelta
-                            if (eachHypothesisDelta >= 0 && eachHypothesisDelta <= busCapacity) {
-                                1
-                            } else {
-                                0
-                            }
-                        }
-                        .sum()
-                if (validDeltas == overallDeltas.size) {
-                    hypothesis
-                } else {
-                    null
-                }
-            }
+    val minDelta = overallDeltas.min()!!
+    val maxDelta = overallDeltas.max()!!
 
-    val result = hypotheses.count()
+    val negDelta = if (minDelta <= 0) {
+        minDelta
+    } else {
+        0
+    }
+    val posDelta = if (minDelta >= 0) {
+        maxDelta
+    } else {
+        0
+    }
+
+    val possibilities = busCapacity + 1
+    val hypotheses = (possibilities + negDelta) - posDelta
+    val result = if (-negDelta > busCapacity || posDelta > busCapacity) {
+        0
+    } else {
+        hypotheses
+    }
     println(result)
 }
