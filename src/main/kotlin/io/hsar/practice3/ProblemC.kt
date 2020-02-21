@@ -11,22 +11,20 @@ Output:
 1
  */
 fun main() {
-    val arrayLength = readLine()!!
-    val array = readLine()!!.split(" ")
-            .map { inputSegment ->
-                inputSegment.toInt()
-            }
+    val fileLength = readLine()!!
+    val fileName = readLine()!!
 
-    array
-            .foldRight(emptyList()) { item, accumulator: List<Int> ->
-                if (!accumulator.contains(item)) {
-                    listOf(item) + accumulator // reversed accumulation
+    val charsToRemove = fileName
+            .split(Regex("[^xX]+")) // split the array by non-X characters: XXXAAAXXX -> [XXX, XXX]
+            .map { eachRunOfXs ->
+                val length = eachRunOfXs.length
+                if (length >= 3) {
+                    length - 2
                 } else {
-                    accumulator
+                    0
                 }
             }
-            .let { dedupedArray ->
-                println(dedupedArray.size)
-                println(dedupedArray.joinToString(" "))
-            }
+            .sum()
+
+    println(charsToRemove)
 }
