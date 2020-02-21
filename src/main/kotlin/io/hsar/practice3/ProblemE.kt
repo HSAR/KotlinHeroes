@@ -40,7 +40,7 @@ fun main() {
                         .mapIndexed { innerIndex, innerSkillLevel ->
                             if (innerIndex != index
                                     && skillLevel > innerSkillLevel // skill level is greater
-                                    && quarrels.contains(setOf(index, innerIndex)))  // not in quarrel
+                                    && !quarrels.contains(setOf(index + 1, innerIndex + 1)))  // not in quarrel
                             {
                                 index to innerIndex
                             } else {
