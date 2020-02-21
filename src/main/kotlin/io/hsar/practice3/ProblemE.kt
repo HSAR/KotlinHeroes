@@ -24,15 +24,20 @@ fun main() {
     val skillLevels = readLine()!!
             .split(" ")
             .map { it.toInt() }
-    val quarrels = (0..(numberOfQuarrels - 1))
+    val quarrels = (0 until numberOfQuarrels)
             .map {
                 readLine()!!
                         .split(" ")
                         .map { it.toInt() }
-                        .let { splitArray ->
-                            setOf(splitArray[0], splitArray[1])
-                        }
             }
+    val quarrelsLookup = skillLevels.mapIndexed { index, _ -> index + 1 to mutableSetOf<Int>() }.toMap()
+    // fill in quarrels
+    quarrels.forEach { quarrel ->
+        val personA = quarrel[0]
+        val personB = quarrel[1]
+        quarrelsLookup[personA]!!.add(personB)
+        quarrelsLookup[personB]!!.add(personA)
+    }
 
     val results = skillLevels
             .mapIndexed { index, skillLevel ->
@@ -40,7 +45,7 @@ fun main() {
                         .mapIndexed { innerIndex, innerSkillLevel ->
                             if (innerIndex != index
                                     && skillLevel > innerSkillLevel // skill level is greater
-                                    && !quarrels.contains(setOf(index + 1, innerIndex + 1)))  // not in quarrel
+                                    && !quarrelsLookup[index + 1]!!.contains(innerIndex + 1))  // not in quarrel
                             {
                                 index to innerIndex
                             } else {
