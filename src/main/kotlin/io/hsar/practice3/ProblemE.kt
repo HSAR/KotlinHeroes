@@ -14,7 +14,7 @@ Input:
 Output:
 5 4 0 5 3 3 9 0 2 5
  */
-fun findLessSkilled(skillsLookup: List<Pair<Int, Int>>, skillLevel: Int): Set<Int> {
+fun findLessSkilled(skillsLookup: List<Pair<Int, Int>>, skillLevel: Int): List<Pair<Int, Int>> {
     return skillsLookup
             .indexOfLast { (otherIndex, otherSkillLevel) ->
                 otherSkillLevel < skillLevel
@@ -22,8 +22,6 @@ fun findLessSkilled(skillsLookup: List<Pair<Int, Int>>, skillLevel: Int): Set<In
             .let { skillsLookupIndex ->
                 skillsLookup.subList(0, skillsLookupIndex + 1)
             }
-            .toMap()
-            .keys
 }
 
 fun main() {
@@ -62,8 +60,9 @@ fun main() {
     val results = skillLevels
             .mapIndexed { index, skillLevel ->
                 findLessSkilled(skillsLookup, skillLevel)
-                        .minus(quarrelsLookup.getValue(index + 1))
-                        .size
+                        .count { (otherIndex, otherSkillLevel) ->
+                            !quarrelsLookup.getValue(index + 1).contains(otherIndex)
+                        }
             }
 
     val result = results.joinToString(" ")
