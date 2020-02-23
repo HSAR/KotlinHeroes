@@ -14,14 +14,20 @@ Input:
 Output:
 5 4 0 5 3 3 9 0 2 5
  */
-fun findLessSkilled(skillsLookup: List<Pair<Int, Int>>, skillLevel: Int): List<Pair<Int, Int>> {
-    return skillsLookup
-            .indexOfLast { (otherIndex, otherSkillLevel) ->
-                otherSkillLevel < skillLevel
+fun findNumberOfValidMentees(skillsLookup: List<Pair<Int, Int>>, quarrelsLookup: Map<Int, Set<Int>>, skillLevel: Int, index: Int): Int {
+    var mentees = 0
+    skillsLookup
+            .forEach { (otherIndex, otherSkillLevel) ->
+                if (otherSkillLevel < skillLevel) {
+                    if (!quarrelsLookup[index]!!.contains(otherIndex))  // not in quarrel
+                    {
+                        mentees++
+                    }
+                } else {
+                    return mentees
+                }
             }
-            .let { skillsLookupIndex ->
-                skillsLookup.subList(0, skillsLookupIndex + 1)
-            }
+    return mentees
 }
 
 fun main() {
@@ -59,10 +65,7 @@ fun main() {
 
     val results = skillLevels
             .mapIndexed { index, skillLevel ->
-                findLessSkilled(skillsLookup, skillLevel)
-                        .count { (otherIndex, otherSkillLevel) ->
-                            !quarrelsLookup.getValue(index + 1).contains(otherIndex)
-                        }
+                findNumberOfValidMentees(skillsLookup, quarrelsLookup, skillLevel, index + 1)
             }
 
     val result = results.joinToString(" ")
