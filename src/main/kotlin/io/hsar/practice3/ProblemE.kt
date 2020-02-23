@@ -27,7 +27,7 @@ fun findNumberOfValidMentees(skillsLookup: List<Pair<Int, Int>>, quarrelsLookup:
                     return mentees
                 }
             }
-    return 0
+    return mentees
 }
 
 fun main() {
