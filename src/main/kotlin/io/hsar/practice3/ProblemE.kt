@@ -14,6 +14,22 @@ Input:
 Output:
 5 4 0 5 3 3 9 0 2 5
  */
+fun findNumberOfValidMentees(skillsLookup: List<Pair<Int, Int>>, quarrelsLookup: Map<Int, Set<Int>>, skillLevel: Int, index: Int): Int {
+    var mentees = 0
+    skillsLookup
+            .forEachIndexed { lookupIndex, (otherIndex, otherSkillLevel) ->
+                if (otherSkillLevel < skillLevel) {
+                    if (!quarrelsLookup[index + 1]!!.contains(otherIndex + 1))  // not in quarrel
+                    {
+                        mentees++
+                    }
+                } else {
+                    return mentees
+                }
+            }
+    return 0
+}
+
 fun main() {
     val (numberOfProgrammers, numberOfQuarrels) = readLine()!!
             .split(" ")
@@ -30,7 +46,10 @@ fun main() {
                         .split(" ")
                         .map { it.toInt() }
             }
-    val quarrelsLookup = skillLevels.mapIndexed { index, _ -> index + 1 to mutableSetOf<Int>() }.toMap()
+
+    val quarrelsLookup = skillLevels
+            .mapIndexed { index, _ -> index + 1 to mutableSetOf<Int>() }
+            .toMap()
     // fill in quarrels
     quarrels.forEach { quarrel ->
         val personA = quarrel[0]
@@ -38,22 +57,15 @@ fun main() {
         quarrelsLookup[personA]!!.add(personB)
         quarrelsLookup[personB]!!.add(personA)
     }
+    val skillsLookup = skillLevels
+            .mapIndexed { index, skillLevel ->
+                index to skillLevel
+            }
+            .sortedBy { (_, skillLevel) -> skillLevel }
 
     val results = skillLevels
             .mapIndexed { index, skillLevel ->
-                skillLevels
-                        .mapIndexed { innerIndex, innerSkillLevel ->
-                            if (innerIndex != index
-                                    && skillLevel > innerSkillLevel // skill level is greater
-                                    && !quarrelsLookup[index + 1]!!.contains(innerIndex + 1))  // not in quarrel
-                            {
-                                index to innerIndex
-                            } else {
-                                null
-                            }
-                        }
-                        .filterNotNull()
-                        .count()
+                findNumberOfValidMentees(skillsLookup, quarrelsLookup, skillLevel, index)
             }
 
     val result = results.joinToString(" ")
