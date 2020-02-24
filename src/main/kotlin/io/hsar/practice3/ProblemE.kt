@@ -1,7 +1,7 @@
 package io.hsar.practice3
 
 /*
-https://codeforces.com/contest/1298/problem/D
+https://codeforces.com/contest/1298/problem/E
 
 Input:
 10 4
@@ -47,8 +47,8 @@ fun main() {
                         .map { it.toInt() }
             }
 
-    val quarrelsLookup = skillLevels
-            .mapIndexed { index, _ -> index + 1 to mutableSetOf<Int>() }
+    val quarrelsLookup = List(numberOfProgrammers)
+    { index -> index + 1 to mutableSetOf<Int>() }
             .toMap()
     // fill in quarrels
     quarrels.forEach { quarrel ->
@@ -68,6 +68,5 @@ fun main() {
                 findNumberOfValidMentees(skillsLookup, quarrelsLookup, skillLevel, index + 1)
             }
 
-    val result = results.joinToString(" ")
-    println(result)
+    println(results.joinToString(" "))
 }
